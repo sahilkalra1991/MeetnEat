@@ -1,0 +1,6 @@
+MARIADB_ROOT_PASSWORD=<todo:your mariadb root password>
+MARIADB_USER=api-user
+MARIADB_PASSWORD=<todo:your api user's password>
+MARIADB_DATABASE=meetneatdb
+DB_HOST=db
+DB_PORT=5432

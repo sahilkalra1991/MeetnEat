@@ -18,7 +18,7 @@ class FoodPreference(models.Model):
 
 class UserFoodPreference(models.Model):
     user_id = models.CharField(max_length=20)
-    preference = models.ForeignKey(FoodPreference, related_name='users')
+    preference = models.ForeignKey(FoodPreference, related_name='users', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('user_id', 'preference')

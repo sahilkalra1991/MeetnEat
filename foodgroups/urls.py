@@ -13,16 +13,34 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.urls import re_path, include
 from django.contrib import admin
 
-from rest_framework_swagger.views import get_swagger_view
+from rest_framework.schemas import get_schema_view
+from rest_framework import permissions
 
-schema_view = get_swagger_view(title="Meet'n'Eat API")
+
+from drf_yasg import (
+    openapi,
+    views as drf_yasg_views
+)
+
+docs_schema = drf_yasg_views.get_schema_view(
+    openapi.Info(
+        title="Meet'n'Eat API",
+        default_version="v1",
+        description="Swagger UI documentation",
+    ),
+    public=True,
+    permission_classes=[permissions.AllowAny],
+)
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^api/', include('users.urls', namespace="user_api")),
-    url(r'^api/events/', include('events.urls', namespace="event_api")),
-    url(r'^api/docs/$', schema_view)
+    re_path(r'^admin/', admin.site.urls),
+    re_path(r'^api/', include(('users.urls', 'users'), namespace="user_api")),
+    re_path(r'^api/events/', include(('events.urls', 'events'), namespace="event_api")),
+    re_path(r'^api/openapi/', get_schema_view(title="Meet'n'Eat API")),
+    re_path(r'^api/docs/$', docs_schema.with_ui("swagger", cache_timeout=0)),
+    re_path(r'^api/redocs/', docs_schema.with_ui("redoc", cache_timeout=0)),
 ]

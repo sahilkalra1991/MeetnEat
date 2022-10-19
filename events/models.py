@@ -26,7 +26,8 @@ class EventLocation(models.Model):
     Private location: User's private Kitchen
     """
     name = models.CharField(max_length=100)
-    campus = models.ForeignKey(Campus, null=True, blank=True, help_text="Campus of the University")
+    campus = models.ForeignKey(Campus, null=True, blank=True, on_delete=models.CASCADE,
+                               help_text="Campus of the University")
     description = models.TextField(blank=True)
     is_public = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=datetime.now)
@@ -50,7 +51,7 @@ class Event(models.Model):
     start_at = models.DateTimeField(default=datetime.now)
     end_at = models.DateTimeField(default=datetime.now)
     capacity = models.IntegerField(default=10)
-    location = models.ForeignKey(EventLocation)
+    location = models.ForeignKey(EventLocation, on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Event Creator", help_text="Id of the Event creator")
 
     def save(self, force_insert=False, force_update=False, using=None,
@@ -67,8 +68,8 @@ class EventPreference(models.Model):
     """
     An event preference is the food preference that this event qualifies for.
     """
-    event = models.ForeignKey(Event, related_name='preferences')
-    food_preference = models.ForeignKey('users.FoodPreference', related_name='events')
+    event = models.ForeignKey(Event, related_name='preferences', on_delete=models.CASCADE)
+    food_preference = models.ForeignKey('users.FoodPreference', related_name='events', on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.now)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -78,7 +79,7 @@ class EventUser(models.Model):
     An event user is the participant in the Event.
     An event can either be the creator or not
     """
-    event = models.ForeignKey(Event, related_name='users')
+    event = models.ForeignKey(Event, related_name='users', on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Event Member",  help_text="Id of the Event participant")
     is_creator = models.BooleanField(default=False)
     created_at = models.DateTimeField(default=datetime.now)
@@ -93,7 +94,7 @@ class EventMessage(models.Model):
     """
     An event message will be a message shared by EventUser.
     """
-    event = models.ForeignKey(Event, related_name='messages')
+    event = models.ForeignKey(Event, related_name='messages', on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Message Creator", help_text="Id of the Message creator")
     text = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
@@ -105,7 +106,7 @@ class EventShoppingItem(models.Model):
     An Event shopping item is an item which needs to be bought and brought to the event.
     It can be food items or cooking utensil
     """
-    event = models.ForeignKey(Event, related_name='shop_items')
+    event = models.ForeignKey(Event, related_name='shop_items', on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Item Creator",  help_text="Id of the Shopping item creator")
     created_at = models.DateTimeField(default=datetime.now)
     modified_at = models.DateTimeField(auto_now=True)
@@ -119,7 +120,7 @@ class EventMeal(models.Model):
     """
     An Event Meal is a food meal which can be one of the options to cook at the event.
     """
-    event = models.ForeignKey(Event, related_name='meals')
+    event = models.ForeignKey(Event, related_name='meals', on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Meal Creator",  help_text="Id of the Meal creator")
     meal_id = models.CharField(max_length=20, verbose_name="Meal Id", help_text="Id of the Global Meal")
     created_at = models.DateTimeField(default=datetime.now)
@@ -131,7 +132,7 @@ class EventMealVote(models.Model):
     """
     An Event Meal Vote represent a vote on the Meal
     """
-    meal = models.ForeignKey(EventMeal, related_name="votes")
+    meal = models.ForeignKey(EventMeal, related_name="votes", on_delete=models.CASCADE)
     user_id = models.CharField(max_length=20, verbose_name="Meal Creator",  help_text="Id of the Meal creator")
     created_at = models.DateTimeField(default=datetime.now)
     modified_at = models.DateTimeField(auto_now=True)

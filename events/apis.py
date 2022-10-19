@@ -8,7 +8,7 @@ from rest_framework import (
     mixins,
     status,
 )
-from rest_framework.decorators import list_route, detail_route
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from commons import views as common_views
@@ -68,7 +68,7 @@ class EventView(
         else:
             return self.queryset
 
-    @list_route(permission_classes=[])
+    @action(detail=False, permission_classes=[])
     def all(self, request, *args, **kwargs):
         """
         Returns all available events
@@ -128,7 +128,7 @@ class EventView(
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    @detail_route(methods=['post'])
+    @action(detail=True, methods=['post'])
     def join(self, request, *args, **kwargs):
         """
         Add a user to the event
@@ -152,7 +152,7 @@ class EventView(
             status=status.HTTP_201_CREATED
         )
 
-    @detail_route(methods=['post'])
+    @action(detail=True, methods=['post'])
     def leave(self, request, *args, **kwargs):
         """
         Delete a user from the event
@@ -163,7 +163,7 @@ class EventView(
         models.EventUser.objects.filter(event=event_obj, user_id=user_id).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @detail_route(methods=['get', 'post'])
+    @action(detail=True, methods=['get', 'post'])
     def messages(self, request, *args, **kwargs):
         """
         GET: List all messages of a group
@@ -186,7 +186,7 @@ class EventView(
                 status=status.HTTP_201_CREATED
             )
 
-    @detail_route(methods=['get', 'post'])
+    @action(detail=True, methods=['get', 'post'])
     def meals(self, request, *args, **kwargs):
         """
         GET: List all meals of a group
@@ -209,7 +209,7 @@ class EventView(
                 status=status.HTTP_201_CREATED
             )
 
-    @detail_route(methods=['get', 'post'])
+    @action(detail=True, methods=['get', 'post'])
     def shoppingitems(self, request, *args, **kwargs):
         """
         GET: List all Shopping items of a group
@@ -276,7 +276,7 @@ class EventShoppingItemView(
     def user_id(self):
         return self.request.user.user_id
 
-    @detail_route(methods=['post'])
+    @action(detail=True, methods=['post'])
     def bring(self, request, *args, **kwargs):
         """
         User brings ShoppingItem 
@@ -313,7 +313,7 @@ class EventMealView(
     def user_id(self):
         return self.request.user.user_id
 
-    @detail_route(methods=['post'])
+    @action(detail=True, methods=['post'])
     def vote(self, request, *args, **kwargs):
         """
         User Vote/DeVote on a meal
@@ -354,7 +354,7 @@ class EventLocationView(
     def get_queryset(self):
         return models.EventLocation.objects.filter(user_id=self.user_id)
 
-    @list_route(authentication_classes=[], permission_classes=[])
+    @action(detail=False, authentication_classes=[], permission_classes=[])
     def all(self, request, *args, **kwargs):
         """
         Returns all Public event locations

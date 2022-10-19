@@ -1,28 +1,28 @@
 Documentation for MeetAndEat feature
 ---
 
-This code was written in **2017** as a part of my Praktikum @TUM during my MS degree
+**Django** web framework is used in combination with django rest framework  for development of REST APIs.
 
-**Django** web framework is used in combination with djangorestframework plugin for development of REST APIs.
-
-**Swagger** is used for API documentation. A secondary documentation in .doc format is available here: [MeetnEat_API_doc](docs/MeetnEat_API_doc.pdf)
+**Swagger** and **Redoc** API documentation is available.
 
 A **DB schema** is also available here: [MeetnEatDBUML](docs/MeetnEatDBUML.png)
 
-The code is compaitble with Python3.
+Docker compose is used to setup a development environment.
 
 Installation:
+(Requires Docker)
 ---
 * Clone the Repo
-* Create Virtual Env with Python 3.5
-* Install requirements: pip install -r requirements
-* Install MariaDB and provide database details in foodgroups/setting.py file
-* Run Django Migration: python manage.py migrate
-* Run Development Server: python manage.py runserver
-* Create an Admin user account: python manage.py createsuperuser
-* API Swagger Documentation: localhost:8000/api/docs/
-* Admin Panel for data management: localhost:8000/admin/
-* API documents document is available in foodgroups/docs folder
+* Create a .env file from env_sample. Define the values marked with todo.
+* Run: `docker compose up`
+* Create an Admin user account: 
+  * Find the docker container ID if for "meetneat_apis" by running `docker ps`
+  * Run `docker exec -it <container_id> python manage.py createsuperuser `
+* API Swagger Documentation: `http://127.0.0.1:8000/api/docs`
+* API Redoc Documentation: `http://127.0.0.1:8000/api/redocs/`
+* Docwnload open-api documentation: `http://127.0.0.1:8000/api/openapi/`
+* Admin Panel for data management: `http://127.0.0.1:8000/admin/`
+* API documents document is available in ./docs folder
 
 Entities:
 ---
