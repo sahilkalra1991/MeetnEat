@@ -9,6 +9,7 @@ class FoodPreferenceAdmin(admin.ModelAdmin):
 class UserFoodPreferenceAdmin(admin.ModelAdmin):
     list_display = ('user_id', 'preference_id')
 
+
 # Register your models here.
 admin.site.register(FoodPreference, FoodPreferenceAdmin)
 admin.site.register(UserFoodPreference, UserFoodPreferenceAdmin)

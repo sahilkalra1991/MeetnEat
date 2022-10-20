@@ -1,4 +1,3 @@
-import random
 from rest_framework import serializers
 from users.models import FoodPreference, UserFoodPreference
 

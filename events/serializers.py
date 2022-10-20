@@ -173,8 +173,8 @@ class EventSerializer(serializers.ModelSerializer):
 
     def save(self, **kwargs):
         """
-        Create/Update Event Object. 
-        Then check is there are preferenceids. 
+        Create/Update Event Object.
+        Then check is there are preferenceids.
         If yes, Delete old preferences. Create EventPreference objects
         """
         self._validated_data.update({

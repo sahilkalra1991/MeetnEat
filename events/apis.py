@@ -72,7 +72,7 @@ class EventView(
     def all(self, request, *args, **kwargs):
         """
         Returns all available events
-        Or 
+        Or
         Return Matched events if following params are passed:
         1. campus: Campus of the event
         2. start_at: start datetime
@@ -86,7 +86,7 @@ class EventView(
             request.query_params.get('start_at'),
             settings.REST_FRAMEWORK['DATETIME_FORMAT']
         ) if request.query_params.get('start_at', None) else None
-        end_at =  datetime.strptime(
+        end_at = datetime.strptime(
             request.query_params.get('end_at'),
             settings.REST_FRAMEWORK['DATETIME_FORMAT']
         ) if request.query_params.get('end_at', None) else None
@@ -279,7 +279,7 @@ class EventShoppingItemView(
     @action(detail=True, methods=['post'])
     def bring(self, request, *args, **kwargs):
         """
-        User brings ShoppingItem 
+        User brings ShoppingItem
         Returns ShoppingItem Object
         """
         item_obj = self.get_object()
@@ -372,7 +372,7 @@ class CampusView(
     common_views.BaseGenericViewSet
 ):
     """
-    Class for Campus APIs 
+    Class for Campus APIs
     """
     model = models.Campus
     serializer_class = serializers.CampusSerializer

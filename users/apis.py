@@ -55,4 +55,3 @@ class UserFoodPreferenceView(
 
     def perform_create(self, serializer):
         serializer.save(user_id=self.user_id)
-

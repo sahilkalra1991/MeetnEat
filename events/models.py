@@ -20,7 +20,7 @@ class Campus(models.Model):
 
 class EventLocation(models.Model):
     """
-    A location where the Event will take place. 
+    A location where the Event will take place.
     The location can be public or private
     Public location: TUM Kitchen, Mensa etc
     Private location: User's private Kitchen
